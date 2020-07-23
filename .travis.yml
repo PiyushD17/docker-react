@@ -18,3 +18,19 @@ script:
   - docker run -e CI=true piyush17/docker-react npm run test -- --coverage
   # npm run test expects user to give an input on what to do next. We do not want that, hence   
   # we have added -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-central-1"
+  app: "docker-react"
+  # the name of the app will be the same as in the elastic bean stalk instance
+  env: "DockerReact-env"
+  # the name of the environment in the EBS instance
+  bucket_name: "elasticbeanstalk-eu-central-1-773389584439"
+  bucket_path: "docker-react"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
+  
