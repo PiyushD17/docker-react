@@ -1,10 +1,13 @@
 ## builder phase
-FROM node:alpine as builder 
+FROM node:alpine
+# FROM node:alpine as builder 
 WORKDIR '/app'
 
-COPY package.json .
+# COPY package.json .
+COPY package.json ./
 RUN npm install
-COPY . .
+# COPY . .
+COPY . ./
 ## We do not need Volume mounting in Production as we are not changing the code anymore
 
 RUN npm run build
@@ -17,4 +20,5 @@ FROM nginx
 # This instruction does not work on normal laptopns and machines
 EXPOSE 80
 ## copy the build folder inside the new nginx container
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=0 /app/build /usr/share/nginx/html
+# COPY --from=builder /app/build /usr/share/nginx/html
